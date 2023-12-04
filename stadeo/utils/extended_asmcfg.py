@@ -258,6 +258,7 @@ def remove_redundant_and_unpin_blocks(asmcfg, head, mode, unpin=True):
     To unpin a block means to unset associated address. New one can be calculated then.
     :return:
     """
+    
     reachable_loc_keys = list(asmcfg.reachable_sons(head))
     blocks_to_be_removed = []
     rip = ExprId("RIP", 64)
@@ -398,7 +399,6 @@ class JTCVariableDependencyGraph(DependencyGraph):
 
         state.remove_pendings(node_resolved)
         state.add_pendings(future_pending)
-
 
 class ExtendedAsmCFG(AsmCFG):
     def __init__(self, file_name, conn=None, cont=None, exectbl=None, *args, **kwargs):

@@ -32,7 +32,9 @@ class CFFStrategies(object):
         self._reached_funcs = set()
         if arch not in [32, 64]:
             raise ValueError
-        self._machine = Machine("x86_" + str(arch))
+        arch="x86_" + str(arch)
+        self._machine = Machine(arch)
+        print(f'CFFStrategies.__init__ with arch {arch}')
 
     def solve_loop(self, func_address, empty_address, context=None, ip='localhost', port=4455, conn=None,
                    only_one=False):
@@ -47,6 +49,8 @@ class CFFStrategies(object):
         :param only_one: do not attempt to reveal more than 1 CFF loop
         :return: True on successful deobfuscation, otherwise False
         """
+        print(f'CFFStrategies._solve_loop with func_address {func_address}, empty_address {empty_address}, '
+             f'context {pformat(context)} ip {ip}, port {port}, conn {conn}, only_one {only_one}')
         close_conn = False
         if not conn:
             close_conn = True
@@ -65,6 +69,7 @@ class CFFStrategies(object):
             val = None
             if context:
                 val = set(context.values()).pop()
+            print(f"CFFStrategies._solve_loop")
             new_empty_address = self._solve_loop(empty_address, recognizer, file_path, conn, val)
 
         if close_conn:

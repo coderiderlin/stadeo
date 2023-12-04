@@ -200,6 +200,7 @@ class CFFRecognizer(object):
         self.ircfg = None
         self.pad = False
         self.analyses = None
+        print("CFFRecognizer: file_path: %s, func_address: 0x%x" % (file_path, func_address))
 
     @staticmethod
     def _resize_top_expr(expr, size):
@@ -346,6 +347,7 @@ class CFFRecognizer(object):
         found_loops_num = 0
         while todo:
             loc_key, symb_state = todo.pop()
+            print(f"_recognize loc_key:{loc_key} , symb_state:{symb_state}")
             if loc_key in done_loc or loc_key not in self.ircfg.blocks:
                 continue
             done_loc.add(loc_key)
@@ -376,13 +378,19 @@ class CFFRecognizer(object):
                 todo.append((succ, symb_engine.get_state()))
 
     def recognize(self, max_loop_num=False, merging_var_candidates=None):
+        print("Recognizing...")
         if not merging_var_candidates:
             merging_var_candidates = None
         if not self.asmcfg:
+
+            print(f"disassemble 0x{hex(self.func_address)} ...")
             self.asmcfg = ExtendedAsmCFG(self.file_path, self.conn)
             self.asmcfg.disassemble(self.func_address, self.conn)
+
+            print(f"remove_redundant_and_unpin_blocks ...")
             remove_redundant_and_unpin_blocks(self.asmcfg, LocKey(0), self.asmcfg.mode, unpin=False)
             block_nb = len(self.asmcfg.blocks)
+            print(f"block_nb: {block_nb}")
             if block_nb > 4250:
                 self.clear_cache()
                 logger.critical("Function is too big")
@@ -391,6 +399,7 @@ class CFFRecognizer(object):
             self.ir_arch = self.machine.ira(self.asmcfg.loc_db)
             if self.merging_var:
                 merging_var_candidates = {self.merging_var}
+            print(f"ir_arch: {self.ir_arch},merging_var: {self.merging_var}")
         else:
             return
         # setting merging vars
