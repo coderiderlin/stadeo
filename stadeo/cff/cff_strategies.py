@@ -8,7 +8,7 @@ import logging
 from pprint import pformat
 from unittest import mock
 
-import ida_rpyc
+import rpyc
 from miasm.analysis.machine import Machine
 from miasm.expression.expression import LocKey
 
@@ -50,7 +50,7 @@ class CFFStrategies(object):
         close_conn = False
         if not conn:
             close_conn = True
-            conn = ida_rpyc.classic.connect(ip, port)
+            conn = rpyc.classic.connect(ip, port)
 
         with mock.patch("builtins.open", conn.builtins.open):
             if context is None:
@@ -107,7 +107,7 @@ class CFFStrategies(object):
         close_conn = False
         if not conn:
             close_conn = True
-            conn = ida_rpyc.classic.connect(ip, port)
+            conn = ida_rpyc_srv.classic.connect(ip, port)
 
         recognized_funcs = {}
         with mock.patch("builtins.open", conn.builtins.open):
@@ -163,7 +163,7 @@ class CFFStrategies(object):
         close_conn = False
         if not conn:
             close_conn = True
-            conn = ida_rpyc.classic.connect(ip, port)
+            conn = ida_rpyc_srv.classic.connect(ip, port)
 
         with mock.patch("builtins.open", conn.builtins.open):
             file_path = conn.modules.idaapi.get_input_file_path()

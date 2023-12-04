@@ -4,7 +4,7 @@
 # Author: Vladislav Hrčka <vladislav.hrcka@eset.com>
 # See LICENSE file for redistribution.
 
-import ida_rpyc
+import ida_rpyc_srv
 from miasm.analysis.binary import Container
 from miasm.expression.expression import *
 from miasm.analysis.machine import Machine
@@ -43,7 +43,7 @@ def patch_xrefs(find_addr, patch_addr, args, ip='localhost', port=4455, conn=Non
     close_conn = False
     if not conn:
         close_conn = True
-        conn = ida_rpyc.classic.connect(ip, port)
+        conn = ida_rpyc_srv.classic.connect(ip, port)
 
     file_name = conn.modules.idaapi.get_input_file_path()
     idautils = conn.root.getmodule("idautils")
