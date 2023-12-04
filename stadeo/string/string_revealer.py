@@ -9,7 +9,7 @@ import logging
 import re
 from unittest import mock
 
-import rpyc
+import ida_rpyc
 from miasm.analysis.dse import DSEEngine
 from miasm.expression.simplifications import expr_simp
 from miasm.analysis.sandbox import Sandbox_Win_x86_32, Sandbox_Win_x86_64
@@ -68,7 +68,7 @@ class StringRevealer(object):
         close_conn = False
         if not conn:
             close_conn = True
-            conn = rpyc.classic.connect(ip, port)
+            conn = ida_rpyc.classic.connect(ip, port)
 
         strings = {}
         file_path = conn.modules.idaapi.get_input_file_path()
@@ -99,7 +99,7 @@ class StringRevealer(object):
         close_conn = False
         if not conn:
             close_conn = True
-            conn = rpyc.classic.connect(ip, port)
+            conn = ida_rpyc.classic.connect(ip, port)
 
         strings = {}
         file_path = conn.modules.idaapi.get_input_file_path()
