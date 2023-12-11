@@ -22,3 +22,6 @@ in the industry, and [Miasm](https://github.com/cea-sec/miasm) – an open
 source framework providing us with various data-flow analyses, a
 symbolic execution engine, a dynamic symbolic execution engine and the
 means to reassemble modified functions.
+
+=====
+the pwd of sample is infected
